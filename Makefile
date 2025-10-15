@@ -27,7 +27,7 @@ lint:
 	@echo "Running linter..."
 	flake8 . --exclude=venv,venv312,venv_rnn,__pycache__,.git,.github --max-line-length=100 --ignore=E501,W503
 format:
-	black . --exclude 'venv|venv312|__pycache__|.git|.github|\.gitignore|.*\.png|.*\.jpg|.*\.pkl' -v
+	black . --exclude 'venv|venv312|venv_rnn|__pycache__|.git|.github'
 	isort experiments models framework --skip venv --skip venv312 --skip __pycache__ --skip .git --skip .github --skip data -v
 tune:
 	@echo "Running hyperparameter tuning with Optuna..."
