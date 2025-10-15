@@ -1,7 +1,6 @@
 import torch
-
-import torch
 from torch.nn.utils.rnn import PackedSequence
+
 
 def moveTo(obj, device):
     """

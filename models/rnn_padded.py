@@ -1,25 +1,29 @@
-# imports 
-import torch 
+# imports
+import os
+import sys
+
+import numpy as np
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np 
-import sys, os
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-)
-from framework.core.rnn_utils import LastTimeStep  
-#el model
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from framework.core.rnn_utils import LastTimeStep
+
+
+# el model
 class RNNPadded(nn.Module):
-    '''
+    """
     def __init__(self, vocab_size, emb_dim, hidden_dim, output_dim):
         - define embedding layer (with padding_idx=0)
         - define RNN layer (use nn.RNN, nn.GRU, or nn.LSTM)
         - define fully connected layer (hidden_dim → output_dim)
-    '''
+    """
+
     def __init__(self, vocab_size, emb_dim, hidden_dim, output_dim):
         super(RNNPadded, self).__init__()
         self.embedding = nn.Embedding(vocab_size, emb_dim, padding_idx=0)
-        self.rnn =nn.RNN(emb_dim, hidden_dim, batch_first=True)
+        self.rnn = nn.RNN(emb_dim, hidden_dim, batch_first=True)
         self.LastTimeStep = LastTimeStep(rnn_layers=1, bidirectional=False)
         self.fc = nn.Linear(hidden_dim, output_dim)
 
@@ -46,5 +50,3 @@ class RNNPadded(nn.Module):
         logits = self.fc(last)
         # print("Logits shape:", logits.shape)  # debug
         return logits
-
-

@@ -1,7 +1,8 @@
+import os
+
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
-import os
 
 base_dir = os.path.dirname(__file__)
 csv_path = os.path.join(base_dir, "spam.csv")
@@ -17,16 +18,17 @@ df = df_raw[["v1", "v2"]].copy()
 df.columns = ["label", "text"]
 
 # Map labels
-df['label'] = df['label'].map({'ham': 0, 'spam': 1})
+df["label"] = df["label"].map({"ham": 0, "spam": 1})
 
 # Drop rows where label mapping failed
-df = df.dropna(subset=['label']).reset_index(drop=True)
+df = df.dropna(subset=["label"]).reset_index(drop=True)
 
 # Convert labels to integer type
-df['label'] = df['label'].astype(int)
+df["label"] = df["label"].astype(int)
 
 # print("Number of samples:", len(df))
 # print("Labels:", df['label'].unique())
+
 
 # Dataset class
 class SMSDataset(Dataset):
@@ -48,7 +50,8 @@ class SMSDataset(Dataset):
     def __getitem__(self, idx):
         return self.data[idx], self.labels[idx]
 
-dataset = SMSDataset(df['text'], df['label'])
+
+dataset = SMSDataset(df["text"], df["label"])
 # print("Dataset length:", len(dataset))
 # print("First sample:", dataset[0])
 # print("Vocabulary size:", len(dataset.vocab))
