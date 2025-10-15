@@ -74,7 +74,7 @@ def run_epoch(
     for name, score_func in score_funcs.items():
         try:
             results[prefix + " " + name].append(score_func(y_true, y_pred))
-        except:
+        except Exception as e:
             results[prefix + " " + name].append(float("NaN"))
     return end - start  # time spent on epoch
 
@@ -192,11 +192,11 @@ def train_network(
     score_funcs -- A dictionary of scoring functions to use to evalue the performance of the model
     epochs -- the number of training epochs to perform
     device -- the compute lodation to perform training
-    lr_schedule -- the learning rate schedule used to alter \eta as the model trains. If this is not None than the user must also provide the optimizer to use.
+    lr_schedule -- the learning rate schedule used to alter  as the model trains. If this is not None than the user must also provide the optimizer to use.
     optimizer -- the method used to alter the gradients for learning.
 
     """
-    if score_funcs == None:
+    if score_funcs is None:
         score_funcs = {}  # Empty set
 
     to_track = ["epoch", "total time", "train loss"]
@@ -217,7 +217,7 @@ def train_network(
     for item in to_track:
         results[item] = []
 
-    if optimizer == None:
+    if optimizer is None:
         # The AdamW optimizer is a good default optimizer
         optimizer = torch.optim.AdamW(model.parameters())
 

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import (PackedSequence, pack_padded_sequence,
                                 pad_packed_sequence)
-
+from torch.nn.utils.rnn import PackedSequence
 
 class LastTimeStep(nn.Module):
     def __init__(self, rnn_layers=1, bidirectional=False):
@@ -112,7 +112,7 @@ class EmbeddingPackable(nn.Module):
         self.embd_layer = embd_layer
 
     def forward(self, input):
-        if type(input) == torch.nn.utils.rnn.PackedSequence:
+        if isinstance(input, PackedSequence):
             # We need to unpack the input,
             sequences, lengths = torch.nn.utils.rnn.pad_packed_sequence(
                 input.cpu(), batch_first=True
