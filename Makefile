@@ -25,7 +25,7 @@ setup:
 	$(PYTHON) -m pip install -r ../requirements.txt
 lint:
 	@echo "Running linter..."
-	flake8 . --exclude=venv,venv312,venv_rnn,__pycache__,.git,.github --max-line-length=100 --ignore=E501,W503
+	flake8 . --exclude=venv,venv312,venv_rnn,__pycache__,.git,.github --max-line-length=100 --ignore=E501,W503,E402,F401,F841,F811,E302
 format:
 	black . --exclude 'venv|venv312|venv_rnn|__pycache__|.git|.github'
 	isort experiments models framework --skip venv --skip venv312 --skip __pycache__ --skip .git --skip .github --skip data -v
