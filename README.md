@@ -96,12 +96,14 @@ Docker Usage
 To build and run the project in Docker:
 
 make docker-build
+
 make docker-run
 
 
 or manually:
 
 docker build -t sms-spam-rnn .
+
 docker run -it sms-spam-rnn
 
 
@@ -113,6 +115,23 @@ Runs linting (flake8)
 
 Trains and tests the model
 
-Uploads trained artifacts
 
 Prepares for container registry deployment
+
+Docker & AWS ECR
+
+Prerequisites
+
+Docker installed: https://www.docker.com/get-started
+
+AWS CLI installed and configured: https://aws.amazon.com/cli/
+
+AWS IAM user with AmazonElasticContainerRegistryPublicFullAccess permissions
+
+GitHub Actions secrets (if using CI/CD):
+
+AWS_ACCESS_KEY_ID
+
+AWS_SECRET_ACCESS_KEY
+
+
