@@ -36,28 +36,35 @@ tune:
 train_final:
 	@echo "Training final model with best Optuna hyperparameters..."
 	$(PYTHON) $(EXPERIMENTS_DIR)/train_final_model.py
-# Authenticate Docker to AWS ECR Public
-login:
-	@echo "Logging in to AWS ECR Public..."
-	aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
 
-# Build Docker image
-build:
+# Docker Commands
+
+IMAGE_NAME = sms-spam-rnn
+ECR_REPO = public.ecr.aws/k5v8x8j7/$(IMAGE_NAME)
+REGION = us-east-1
+
+docker-build:
 	@echo "Building Docker image..."
 	docker build -t $(IMAGE_NAME) .
 
-# Tag Docker image
-tag:
-	@echo "Tagging Docker image..."
-	docker tag $(IMAGE_NAME):$(TAG) $(ECR_REGISTRY)/$(IMAGE_NAME):$(TAG)
+docker-run:
+	@echo " Running Docker container locally..."
+	docker run --rm -it $(IMAGE_NAME)
 
-# Push Docker image to ECR
-push: login tag
-	@echo "Pushing Docker image to ECR..."
-	docker push $(ECR_REGISTRY)/$(IMAGE_NAME):$(TAG)
+docker-login:
+	@echo " Logging in to AWS ECR..."
+	aws ecr-public get-login-password --region $(REGION) | docker login --username AWS --password-stdin $(ECR_REPO)
 
-# Combined target: build, tag, and push in one go
-deploy: build push
+docker-tag:
+	@echo " Tagging Docker image..."
+	docker tag $(IMAGE_NAME):latest $(ECR_REPO):latest
+
+docker-push:
+	@echo " Pushing Docker image to AWS ECR..."
+	docker push $(ECR_REPO):latest
+
+# Combo command
+docker-all: docker-build docker-login docker-tag docker-push
 
 clean:
 	@echo "Cleaning temporary files..."

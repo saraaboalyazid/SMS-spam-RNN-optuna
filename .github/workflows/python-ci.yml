@@ -17,23 +17,50 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-         python-version: "3.12"
+          python-version: "3.12"
 
-
-      - name:  Install dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install black isort flake8 pytest torch numpy optuna
         
-      - name:  Run format
-        run: make format 
+      - name: Run format
+        run: make format
       
-      - name:  Run linter
+      - name: Run linter
         run: make lint
 
-      - name:  Run Optuna tuning
+      - name: Run Optuna tuning
         run: make tune
 
-      - name:  Retrain final model
+      - name: Retrain final model
         run: make train_final
+
+      - name: Build Docker image
+        run: make docker-build
+
+      # ✅ Add AWS credentials to environment
+      - name: Log in to AWS ECR
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1  
+        run: make docker-login
+
+      - name: Push Docker image
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+        run: |
+          make docker-tag
+          make docker-push
+
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: |
+            final_best_model.pth
+            best_params.json
