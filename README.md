@@ -1,4 +1,4 @@
-### SMS Spam Detection using RNN (with Optuna Hyperparameter Tuning)
+# SMS Spam Detection using RNN (with Optuna Hyperparameter Tuning)
 
 ## Overview
 
