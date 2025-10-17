@@ -17,32 +17,7 @@ Features
  Makefile automation for all tasks
  Continuous Integration (GitHub Actions)
  Ready for containerization and deployment with Docker
-rnn_experiments/
-│
-├── data/
-│   ├── spam.csv
-│   └── dataset.py
-│
-├── experiments/
-│   ├── train_with_optuna.py
-│   ├── train_final_model.py
-│   ├── train_padded.py
-│   ├── train_pad_packed.py
-│   └── train_padpacked_with_optimization.py
-│
-├── framework/
-│   ├── core/
-│   │   └── rnn_utils.py          # Custom RNN helper classes
-│   ├── training/
-│   │   └── trainer.py            # Unified training loop
-│   └── models/
-│       ├── rnn_pad_packed.py
-│       └── rnn_pad_padded.py
-│
-├── makefile
-├── requirements.txt
-├── Dockerfile
-└── README.md
+
 
 ### Model Architectures:
 
