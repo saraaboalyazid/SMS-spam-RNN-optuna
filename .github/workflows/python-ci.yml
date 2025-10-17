@@ -40,23 +40,19 @@ jobs:
       - name: Build Docker image
         run: make docker-build
 
-      # ✅ Add AWS credentials to environment
-      - name: Log in to AWS ECR
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1  
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: us-east-1
+
+      - name: Docker login to ECR
         run: make docker-login
-
-      - name: Push Docker image
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
-        run: |
-          make docker-tag
-          make docker-push
-
+        
+      - name: Build, tag, push Docker image
+        run: make docker-all
+ 
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4
         with:
