@@ -68,6 +68,27 @@ Dropout regularization
 Final Model Accuracy & loss 
 ![alt text](image-3.png)
 
+===== Evaluation Results =====
+Accuracy : 0.9839
+Precision: 0.9839
+Recall   : 0.9839
+F1-score : 0.9835
+
+Confusion Matrix:
+[[954   2]
+ [ 16 143]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99       956
+           1       0.99      0.90      0.94       159
+
+    accuracy                           0.98      1115
+   macro avg       0.98      0.95      0.97      1115
+weighted avg       0.98      0.98      0.98      1115
+
+
 Setup Instructions: 
 1.Clone the repository
 git clone https://github.com/<your-username>/SMS-Spam-Detection-RNN-Optuna.git
