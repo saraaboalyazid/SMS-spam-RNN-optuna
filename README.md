@@ -156,3 +156,26 @@ AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 
 
+----------------------------------------------------
+## API Demo
+
+Run the FastAPI server:
+```bash
+uvicorn app:app --reload
+
+
+Open Swagger UI:
+http://127.0.0.1:8000/docs
+
+Example request:
+{
+  "text": "FREE entry! Text WIN to 80800"
+}
+
+Response body
+
+{
+  "label": "spam",
+  "confidence": 0.9990246295928955,
+  "spam_probability": 0.9990246295928955
+}
